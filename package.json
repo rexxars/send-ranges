@@ -1,6 +1,6 @@
 {
   "name": "send-ranges",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Express middleware for handling HTTP range requests",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,12 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "keywords": ["byteranges", "multipart", "multi-part", "range"],
+  "keywords": [
+    "byteranges",
+    "multipart",
+    "multi-part",
+    "range"
+  ],
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "license": "MIT",
   "bugs": {
@@ -43,5 +48,7 @@
     "pump": "^1.0.3",
     "range-parser": "^1.2.0"
   },
-  "files": ["src/"]
+  "files": [
+    "src/"
+  ]
 }
