@@ -1,0 +1,48 @@
+{
+  "name": "send-ranges",
+  "version": "1.0.0",
+  "description": "Express middleware for handling HTTP range requests",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rexxars/send-ranges.git"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "keywords": [
+    "byteranges",
+    "multipart",
+    "multi-part",
+    "range"
+  ],
+  "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rexxars/send-ranges/issues"
+  },
+  "homepage": "https://github.com/rexxars/send-ranges#readme",
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-prettier": "^2.8.0",
+    "eslint-config-sanity": "^3.1.0",
+    "express": "^4.16.2",
+    "jest": "^21.2.1",
+    "needle": "^2.0.1",
+    "prettier": "^1.8.2",
+    "sprom": "^3.0.0",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "byte-range-stream": "^2.0.1",
+    "pump": "^1.0.3",
+    "range-parser": "^1.2.0"
+  },
+  "files": [
+    "src/"
+  ]
+}

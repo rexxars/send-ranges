@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`send-ranges throws on missing/invalid \`beforeSend\` 1`] = `"\`options.beforeSend\` must be a function"`;
+
+exports[`send-ranges throws on missing/invalid \`beforeSend\` 2`] = `"\`options.beforeSend\` must be a function"`;
+
+exports[`send-ranges throws on missing/invalid \`getStream\` 1`] = `"\`fetchStream\` must be a function"`;
+
+exports[`send-ranges throws on missing/invalid \`getStream\` 2`] = `"\`fetchStream\` must be a function"`;

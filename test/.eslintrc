@@ -1,0 +1,6 @@
+{
+  "env": {"node": true, "browser": false, "jest": true},
+  "rules": {
+    "no-sync": 0
+  }
+}

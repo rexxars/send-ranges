@@ -1,0 +1,42 @@
+The "Range" header field on a GET request modifies the method
+semantics to request transfer of only one or more subranges of the
+selected representation data, rather than the entire selected
+representation data.
+
+  Range = byte-ranges-specifier / other-ranges-specifier
+  other-ranges-specifier = other-range-unit "=" other-range-set
+  other-range-set = 1*VCHAR
+
+A server MAY ignore the Range header field.  However, origin servers
+and intermediate caches ought to support byte ranges when possible,
+since Range supports efficient recovery from partially failed
+transfers and partial retrieval of large representations.  A server
+MUST ignore a Range header field received with a request method other
+than GET.
+
+An origin server MUST ignore a Range header field that contains a
+range unit it does not understand.  A proxy MAY discard a Range
+header field that contains a range unit it does not understand.
+
+A server that supports range requests MAY ignore or reject a Range
+header field that consists of more than two overlapping ranges, or a
+set of many small ranges that are not listed in ascending order,
+since both are indications of either a broken client or a deliberate
+denial-of-service attack (Section 6.1).  A client SHOULD NOT request
+multiple ranges that are inherently less efficient to process and
+transfer than a single range that encompasses the same data.
+
+A client that is requesting multiple ranges SHOULD list those ranges
+in ascending order (the order in which they would typically be
+received in a complete representation) unless there is a specific
+need to request a later part earlier.  For example, a user agent
+processing a large representation with an internal catalog of parts
+might need to request later parts first, particularly if the
+representation consists of pages stored in reverse order and the user
+agent wishes to transfer one page at a time.
+
+The Range header field is evaluated after evaluating the precondition
+header fields defined in [RFC7232], and only if the result in absence
+of the Range header field would be a 200 (OK) response.  In other
+words, Range is ignored when a conditional GET would result in a 304
+(Not Modified) response.

@@ -1,0 +1,12 @@
+{
+  "extends": ["sanity", "prettier"],
+  "env": {"node": true, "browser": false},
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "guard-for-in": 0,
+    "strict": 0,
+    "complexity": [1, 11]
+  }
+}
