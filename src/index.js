@@ -6,7 +6,8 @@ const BRS = require('byte-range-stream')
 const noopNext = (info, next) => next()
 
 const defaultOptions = {
-  beforeSend: noopNext
+  beforeSend: noopNext,
+  maxRanges: 2
 }
 
 module.exports = (fetchStream, opts = {}) => {
@@ -68,6 +69,16 @@ module.exports = (fetchStream, opts = {}) => {
         .set('Content-Range', `bytes */${size}`)
         .type('text')
         .send('Range not satisfiable')
+      return
+    }
+
+    // Beyond limit?
+    if (ranges.length > options.maxRanges) {
+      res
+        .status(400)
+        .set('Content-Range', `bytes */${size}`)
+        .type('text')
+        .send(`Too many ranges specified. Max: ${options.maxRanges}. Range: ${range}`)
       return
     }
 

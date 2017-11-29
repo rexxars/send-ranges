@@ -46,7 +46,7 @@ app.listen(3000, () => {
 })
 ```
 
-## Pre-send hook
+### Pre-send hook
 
 You can pass a `beforeSend` function as an option. This is handy if you want to:
 
@@ -74,6 +74,14 @@ async function beforeSend(info, cb) {
 }
 
 app.get('/*', sendRanges(retrieveFile, {beforeSend}))
+```
+
+### Maximum number of ranges
+
+By default, up to two ranges are allowed. The limit can be adjusted with the `maxRanges` option:
+
+```js
+sendRanges(retrieveFile, {maxRanges: 4})
 ```
 
 ## License

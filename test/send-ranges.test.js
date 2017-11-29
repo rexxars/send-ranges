@@ -148,6 +148,24 @@ describe('send-ranges', () => {
       .end(done)
   })
 
+  test('sends 400 on too many ranges specified', done => {
+    request(getApp())
+      .get('/somefile.txt')
+      .set('Range', 'bytes=0-50,100-150,200-250')
+      .expect('Content-Type', /text\/plain/)
+      .expect(400, 'Too many ranges specified. Max: 2. Range: bytes=0-50,100-150,200-250')
+      .end(done)
+  })
+
+  test('sends 400 on too many ranges specified (configured)', done => {
+    request(getApp({maxRanges: 3}))
+      .get('/somefile.txt')
+      .set('Range', 'bytes=0-50,100-150,200-250,300-350')
+      .expect('Content-Type', /text\/plain/)
+      .expect(400, 'Too many ranges specified. Max: 3. Range: bytes=0-50,100-150,200-250,300-350')
+      .end(done)
+  })
+
   test('sends single-chunk response on single range', done => {
     request(getApp())
       .get('/somefile.txt')
