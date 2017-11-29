@@ -2,8 +2,10 @@
   "name": "send-ranges",
   "version": "1.1.0",
   "description": "Express middleware for handling HTTP range requests",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "babel --source-maps -d lib/ src/",
+    "prepublishOnly": "npm run build && npm test",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
@@ -27,6 +29,10 @@
   },
   "homepage": "https://github.com/rexxars/send-ranges#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.11.0",
     "eslint-config-prettier": "^2.8.0",
     "eslint-config-sanity": "^3.1.0",
