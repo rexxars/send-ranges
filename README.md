@@ -2,7 +2,7 @@
 
 [![npm version](http://img.shields.io/npm/v/send-ranges.svg?style=flat-square)](http://browsenpm.org/package/send-ranges)[![Build Status](http://img.shields.io/travis/rexxars/send-ranges/master.svg?style=flat-square)](https://travis-ci.org/rexxars/send-ranges)
 
-Express middleware for handling HTTP range requests
+Express middleware for handling HTTP range requests. Requires node 6 or higher.
 
 ## Installation
 
