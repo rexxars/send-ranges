@@ -49,6 +49,6 @@
     "range-parser": "^1.2.0"
   },
   "files": [
-    "src/"
+    "lib/"
   ]
 }
