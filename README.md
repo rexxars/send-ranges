@@ -69,7 +69,7 @@ async function retrieveFile(request) {
 
 async function beforeSend(info, cb) {
   const {request, response, metadata, sourceStream} = info
-  response.set('Last-Modified', new Date(meta.updated).toUTCString())
+  response.set('Last-Modified', new Date(metadata.updated).toUTCString())
   cb()
 }
 
