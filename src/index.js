@@ -50,7 +50,7 @@ module.exports = (fetchStream, opts = {}) => {
     const {getStream, size, type, metadata} = file
 
     // Parse the range header
-    const ranges = rangeParser(size, range)
+    const ranges = rangeParser(size, range, options)
 
     // Malformed?
     if (ranges === -2) {
