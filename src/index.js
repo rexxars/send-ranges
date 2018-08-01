@@ -50,7 +50,7 @@ module.exports = (fetchStream, opts = {}) => {
     const {getStream, size, type, metadata} = file
 
     // Parse the range header
-    const ranges = rangeParser(size, range, options)
+    let ranges = rangeParser(size, range, options)
 
     // Malformed?
     if (ranges === -2) {
@@ -62,7 +62,15 @@ module.exports = (fetchStream, opts = {}) => {
     }
 
     // Unsatisfiable?
-    const isUnsatisfiable = ranges === -1 || ranges.type !== 'bytes'
+    let isUnsatisfiable = ranges === -1 || ranges.type !== 'bytes'
+
+    const {intersectRanges} = options
+    if (!isUnsatisfiable && intersectRanges) {
+      ranges = intersectRanges({metadata, ranges})
+
+      isUnsatisfiable = ranges.length === 0
+    }
+
     if (isUnsatisfiable) {
       res
         .status(416)
