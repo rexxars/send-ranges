@@ -310,4 +310,15 @@ describe('send-ranges', () => {
       .expect(500, {error: 'Some error'})
       .end(done)
   })
+
+  test('can pass `intersectRanges` function', () => {
+    const intersectRanges = ({metadata, ranges}) => {
+      expect(metadata).toMatchObject({foo: 'bar'})
+      return ranges
+    }
+    return request(getApp({intersectRanges, fetch: fetchFileWithMetadata}))
+      .get('/somefile.txt')
+      .set('Range', 'bytes=5-26')
+      .expect(206, 'Range" header field on')
+  })
 })
