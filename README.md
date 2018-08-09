@@ -46,6 +46,12 @@ app.listen(3000, () => {
 })
 ```
 
+## Options
+
+Exported function accept an `options` config object that will be passed to
+`range-parser`. In addition that, this `options` object accept some
+`send-ranges` specific ones:
+
 ### Pre-send hook
 
 You can pass a `beforeSend` function as an option. This is handy if you want to:
@@ -87,3 +93,11 @@ sendRanges(retrieveFile, {maxRanges: 4})
 ## License
 
 MIT © [Espen Hovlandsdal](https://espen.codes/)
+
+### intersectRanges
+
+Optional function that allow to modify the list of ranges to be returned. This
+can be used for example if the data is not fully available because your file has
+holes in it. It will be called with an object with the same `metadata` field
+used for the `beforeSend()` optional function, and a `ranges` field with the
+list of ranges.
