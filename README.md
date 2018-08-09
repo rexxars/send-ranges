@@ -90,10 +90,6 @@ By default, up to two ranges are allowed. The limit can be adjusted with the `ma
 sendRanges(retrieveFile, {maxRanges: 4})
 ```
 
-## License
-
-MIT © [Espen Hovlandsdal](https://espen.codes/)
-
 ### intersectRanges
 
 Optional function that allow to modify the list of ranges to be returned. This
@@ -101,3 +97,7 @@ can be used for example if the data is not fully available because your file has
 holes in it. It will be called with an object with the same `metadata` field
 used for the `beforeSend()` optional function, and a `ranges` field with the
 list of ranges.
+
+## License
+
+MIT © [Espen Hovlandsdal](https://espen.codes/)
