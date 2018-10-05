@@ -91,7 +91,7 @@ module.exports = (fetchStream, opts = {}) => {
     }
 
     // Valid ranges, so flag it as a partial response
-    res.status(206).vary('Range')
+    res.status(206)
 
     // For single-range range requests, we don't need to use multipart
     const isSingleRange = ranges.length === 1
