@@ -2,19 +2,19 @@
   "name": "send-ranges",
   "version": "2.0.0",
   "description": "Express middleware for handling HTTP range requests",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "babel --source-maps -d lib/ src/",
-    "prepublishOnly": "npm run build && npm test",
+    "prepublishOnly": "npm test",
     "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "posttest": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/rexxars/send-ranges.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "keywords": [
     "byteranges",
@@ -29,26 +29,22 @@
   },
   "homepage": "https://github.com/rexxars/send-ranges#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-jest": "^21.2.0",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.11.0",
-    "eslint-config-prettier": "^2.8.0",
+    "eslint": "^5.15.3",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-config-sanity": "^3.1.0",
-    "express": "^4.16.2",
-    "jest": "^21.2.1",
-    "needle": "^2.0.1",
-    "prettier": "^1.8.2",
+    "express": "^4.16.4",
+    "jest": "^24.5.0",
+    "needle": "^2.2.4",
+    "prettier": "^1.16.4",
     "sprom": "^3.0.0",
-    "supertest": "^3.0.0"
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "byte-range-stream": "^2.0.1",
-    "pump": "^1.0.3",
+    "pump": "^3.0.0",
     "range-parser": "^1.2.0"
   },
   "files": [
-    "lib/"
+    "src/"
   ]
 }

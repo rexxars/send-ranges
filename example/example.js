@@ -1,6 +1,4 @@
 /* eslint-disable no-console, no-sync */
-'use strict'
-
 const fs = require('fs')
 const path = require('path')
 const express = require('express')

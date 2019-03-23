@@ -1,5 +1,3 @@
-'use strict'
-
 const pump = require('pump')
 const rangeParser = require('range-parser')
 const BRS = require('byte-range-stream')
@@ -11,7 +9,7 @@ const defaultOptions = {
 }
 
 module.exports = (fetchStream, opts = {}) => {
-  const options = Object.assign({}, defaultOptions, opts)
+  const options = {...defaultOptions, ...opts}
 
   if (typeof fetchStream !== 'function') {
     throw new Error('`fetchStream` must be a function')
