@@ -46,6 +46,28 @@ app.listen(3000, () => {
 })
 ```
 
+### Caching support
+
+If you want to support [HTTP caching using the `304 Not Modified`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching), add an `eTag` or `lastModified` field to the `retrieveFile` result.
+
+As an example, we can compute the `ETag` of a Buffer like this:
+
+```js
+const etag = require('etag')
+
+const buf = Buffer.from('Hello World!', 'utf-8')
+function retrieveFile(request) {
+  // …
+  return {
+    getStream, type,
+    size: buf.byteLength,
+    eTag: etag(buf)
+  }
+}
+```
+
+Note that you need to generate a [*strong* `ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests#Weak_validation) for the caching to work.
+
 ## Options
 
 Exported function accept an `options` config object that will be passed to
