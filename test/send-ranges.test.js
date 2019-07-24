@@ -255,6 +255,21 @@ describe('send-ranges', () => {
     expect(chunks[1]).toEqual('der field o')
   })
 
+  // todo: weak etag, last-modified
+  test('sends 304 on range & valid if-range', done => {
+    const eTag = '"foo"'
+    const fetchFileWithEtag = () => ({...fetchFile(), eTag: eTag})
+    const app = getApp({fetch: fetchFileWithEtag})
+
+    request(app)
+      .get('/somefile.txt')
+      .set('Range', 'bytes=0-50')
+      .set('If-Range', eTag)
+      .expect('ETag', eTag)
+      .expect(304, '')
+      .end(done)
+  })
+
   test('calls error handler on fetch fail', done => {
     const error = new Error('Some error')
     const app = getApp({fetch: () => Promise.reject(error)})

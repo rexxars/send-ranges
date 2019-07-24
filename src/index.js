@@ -45,7 +45,7 @@ module.exports = (fetchStream, opts = {}) => {
       return
     }
 
-    const {getStream, size, type, metadata} = file
+    const {getStream, size, type, metadata, eTag, lastModified} = file
 
     // Parse the range header
     let ranges = rangeParser(size, range, options)
@@ -88,29 +88,26 @@ module.exports = (fetchStream, opts = {}) => {
       return
     }
 
-    // Valid ranges, so flag it as a partial response
-    res.status(206)
-
-    // For single-range range requests, we don't need to use multipart
-    const isSingleRange = ranges.length === 1
-    const resolveStream = isSingleRange
-      ? getStream(ranges[0])
-      : new BRS({range, getChunk: getStream, totalSize: size, contentType: type})
-
-    // Stream retrieval might be async
-    const sourceStream = await resolveStream
+    // Valid ranges, set appropriate status code
+    const ifRange = req.headers['if-range']
+    const isNotModified = ifRange && (ifRange === eTag || ifRange === lastModified)
+    res.status(isNotModified ? 304 : 206)
 
     // Prepare headers to set (only apply them after `beforeSend`, in case we run into trouble)
-    let headers
-    if (isSingleRange) {
-      headers = {
+    const isSingleRange = ranges.length === 1
+    const sourceStream = isSingleRange
+      ? await getStream(ranges[0])
+      : new BRS({range, getChunk: getStream, totalSize: size, contentType: type})
+    const headers = isSingleRange
+      ? {
         'Content-Type': type || 'application/octet-stream',
         'Content-Range': `bytes ${ranges[0].start}-${ranges[0].end}/${size}`,
         'Content-Length': 1 + ranges[0].end - ranges[0].start
       }
-    } else {
-      headers = sourceStream.getHeaders()
-    }
+      : sourceStream.getHeaders()
+
+    if (eTag) headers['ETag'] = eTag
+    if (lastModified) headers['Last-Modified'] = lastModified
 
     // Allow the user to do pre-response actions, like adding additional headers or even
     // handling the response themselves. The user is responsible for calling next() to
@@ -124,8 +121,7 @@ module.exports = (fetchStream, opts = {}) => {
 
       res.set(headers)
 
-      // We don't need the actual body in case of a HEAD, so terminate early
-      if (req.method === 'HEAD') {
+      if (req.method === 'HEAD' || isNotModified) {
         res.end()
         return
       }
