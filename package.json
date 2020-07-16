@@ -14,7 +14,7 @@
     "url": "git+ssh://git@github.com/rexxars/send-ranges.git"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "keywords": [
     "byteranges",
@@ -29,13 +29,13 @@
   },
   "homepage": "https://github.com/rexxars/send-ranges#readme",
   "devDependencies": {
-    "eslint": "^6.0.0",
-    "eslint-config-prettier": "^5.0.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-config-sanity": "^3.1.0",
     "express": "^4.17.1",
-    "jest": "^24.8.0",
-    "needle": "^2.4.0",
-    "prettier": "^1.18.2",
+    "jest": "^26.1.0",
+    "needle": "^2.5.0",
+    "prettier": "^2.0.5",
     "sprom": "^3.0.0",
     "supertest": "^4.0.2"
   },
@@ -46,5 +46,11 @@
   },
   "files": [
     "src/"
-  ]
+  ],
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
+  }
 }

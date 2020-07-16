@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.0 - 2020-07-16
+
+### BREAKING
+
+* Drop support for Node 8.
+
 ## 3.0.0 - 2019-03-23
 
 ### BREAKING
