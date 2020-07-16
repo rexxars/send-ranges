@@ -7,14 +7,14 @@ const app = express()
 
 const filePath = path.join(__dirname, 'somefile.txt')
 
-const retrieveFile = request => {
+const retrieveFile = (request) => {
   const filename = request.params.filename
   if (filename !== 'somefile.txt') {
     // We are using promises, so throwing errors will trigger the error middleware
     throw new Error('File not found')
   }
 
-  const getStream = range => fs.createReadStream(filePath, range)
+  const getStream = (range) => fs.createReadStream(filePath, range)
   const size = fs.statSync(filePath).size
   const type = 'text/plain'
 

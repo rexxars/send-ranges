@@ -21,16 +21,16 @@ const parseResponse = (headers, body) => {
   const content = body.toString()
   const chunks = content
     .split(boundary)
-    .map(part => part.replace(/^-+/, '').trim())
-    .map(part => part.split('\r\n\r\n')[1])
+    .map((part) => part.replace(/^-+/, '').trim())
+    .map((part) => part.split('\r\n\r\n')[1])
     .filter(Boolean)
 
   return chunks
 }
 
-const getStream = range => fs.createReadStream(fixturePath, range)
-const getStreamAsync = range =>
-  new Promise(resolve => setImmediate(resolve, fs.createReadStream(fixturePath, range)))
+const getStream = (range) => fs.createReadStream(fixturePath, range)
+const getStreamAsync = (range) =>
+  new Promise((resolve) => setImmediate(resolve, fs.createReadStream(fixturePath, range)))
 const fetchFile = () => ({getStream, size, type: 'text/plain'})
 const fetchNothing = () => null
 const fetchFileAsync = () => ({getStream: getStreamAsync, size, type: 'text/plain'})
@@ -43,19 +43,19 @@ const defaultSender = (req, res, next) =>
 const getApp = (opts = {}) =>
   express().get('/:filename', sendRanges(opts.fetch || fetchFile, opts), defaultSender)
 
-const getListeningApp = opts =>
-  new Promise(resolve => {
+const getListeningApp = (opts) =>
+  new Promise((resolve) => {
     server = getApp(opts).listen(0, '127.0.0.1', () => resolve(server.address().port))
   })
 
 const requestRange = async (range, opts = {}) => {
   const port = await getListeningApp(opts)
   const stream = needle.get(`http://127.0.0.1:${port}/somefile.txt`, {
-    headers: {Range: range}
+    headers: {Range: range},
   })
 
   let headers
-  stream.on('response', res => {
+  stream.on('response', (res) => {
     headers = res.headers
   })
 
@@ -66,7 +66,7 @@ const requestRange = async (range, opts = {}) => {
 }
 
 describe('send-ranges', () => {
-  afterEach(done => {
+  afterEach((done) => {
     const close = server ? server.close.bind(server) : setImmediate
     server = null
     close(done)
@@ -82,7 +82,7 @@ describe('send-ranges', () => {
     expect(() => sendRanges(fetchFile, {beforeSend: 'moop'})).toThrowErrorMatchingSnapshot()
   })
 
-  test('defers to next handler in chain on no range header', done => {
+  test('defers to next handler in chain on no range header', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .expect('Content-Type', /text\/plain/)
@@ -91,7 +91,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('defers to next handler if fetcher returns falsey value', done => {
+  test('defers to next handler if fetcher returns falsey value', (done) => {
     request(getApp({fetch: fetchNothing}))
       .get('/somefile.txt')
       .set('Range', 'bytes=0-60')
@@ -101,7 +101,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on malformed range header', done => {
+  test('sends 400 on malformed range header', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'foo')
@@ -110,7 +110,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on unsatisfiable range header (unit)', done => {
+  test('sends 400 on unsatisfiable range header (unit)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'pages=0-100')
@@ -119,7 +119,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on unsatisfiable range header (invalid numbers)', done => {
+  test('sends 400 on unsatisfiable range header (invalid numbers)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=moo-mooo')
@@ -128,7 +128,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on unsatisfiable range header (start > end)', done => {
+  test('sends 400 on unsatisfiable range header (start > end)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=3000-1000')
@@ -137,7 +137,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on unsatisfiable range header (start < 0)', done => {
+  test('sends 400 on unsatisfiable range header (start < 0)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=a0-500000000')
@@ -146,7 +146,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on too many ranges specified', done => {
+  test('sends 400 on too many ranges specified', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=0-50,100-150,200-250')
@@ -155,7 +155,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends 400 on too many ranges specified (configured)', done => {
+  test('sends 400 on too many ranges specified (configured)', (done) => {
     request(getApp({maxRanges: 3}))
       .get('/somefile.txt')
       .set('Range', 'bytes=0-50,100-150,200-250,300-350')
@@ -164,7 +164,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range', done => {
+  test('sends single-chunk response on single range', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=0-60')
@@ -173,7 +173,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range (async)', done => {
+  test('sends single-chunk response on single range (async)', (done) => {
     request(getApp({fetch: fetchFileAsync}))
       .get('/somefile.txt')
       .set('Range', 'bytes=0-60')
@@ -182,7 +182,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range (head)', done => {
+  test('sends single-chunk response on single range (head)', (done) => {
     request(getApp())
       .head('/somefile.txt')
       .set('Range', 'bytes=0-60')
@@ -191,7 +191,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range (tail)', done => {
+  test('sends single-chunk response on single range (tail)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=-24')
@@ -200,7 +200,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range (tail, open)', done => {
+  test('sends single-chunk response on single range (tail, open)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=2156-')
@@ -209,7 +209,7 @@ describe('send-ranges', () => {
       .end(done)
   })
 
-  test('sends single-chunk response on single range (tail, open, no dash)', done => {
+  test('sends single-chunk response on single range (tail, open, no dash)', (done) => {
     request(getApp())
       .get('/somefile.txt')
       .set('Range', 'bytes=2156')
@@ -255,7 +255,7 @@ describe('send-ranges', () => {
     expect(chunks[1]).toEqual('der field o')
   })
 
-  test('calls error handler on fetch fail', done => {
+  test('calls error handler on fetch fail', (done) => {
     const error = new Error('Some error')
     const app = getApp({fetch: () => Promise.reject(error)})
     app.use((err, req, res, next) => {
@@ -277,7 +277,7 @@ describe('send-ranges', () => {
       .set('Range', 'bytes=5-26')
       .expect('Content-Type', /application\/octet-stream/)
       .expect(206)
-      .then(res => expect(res.body.toString('utf8')).toEqual('Range" header field on')))
+      .then((res) => expect(res.body.toString('utf8')).toEqual('Range" header field on')))
 
   test('can pass `beforeSend` function, receives metadata, can set headers', () => {
     const beforeSend = (info, cb) => {
@@ -289,10 +289,10 @@ describe('send-ranges', () => {
       .get('/somefile.txt')
       .set('Range', 'bytes=5-26')
       .expect(206, 'Range" header field on')
-      .then(res => expect(res.headers).toHaveProperty('x-foo', 'some-value'))
+      .then((res) => expect(res.headers).toHaveProperty('x-foo', 'some-value'))
   })
 
-  test('calls error handler on `beforeSend` fail', done => {
+  test('calls error handler on `beforeSend` fail', (done) => {
     const error = new Error('Some error')
     const beforeSend = (info, cb) => setImmediate(cb, error)
     const app = getApp({beforeSend})

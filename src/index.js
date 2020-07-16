@@ -5,7 +5,7 @@ const noopNext = (info, next) => next()
 
 const defaultOptions = {
   beforeSend: noopNext,
-  maxRanges: 2
+  maxRanges: 2,
 }
 
 module.exports = (fetchStream, opts = {}) => {
@@ -52,10 +52,7 @@ module.exports = (fetchStream, opts = {}) => {
 
     // Malformed?
     if (ranges === -2) {
-      res
-        .status(400)
-        .type('text')
-        .send('Malformed `range` header')
+      res.status(400).type('text').send('Malformed `range` header')
       return
     }
 
@@ -106,7 +103,7 @@ module.exports = (fetchStream, opts = {}) => {
       headers = {
         'Content-Type': type || 'application/octet-stream',
         'Content-Range': `bytes ${ranges[0].start}-${ranges[0].end}/${size}`,
-        'Content-Length': 1 + ranges[0].end - ranges[0].start
+        'Content-Length': 1 + ranges[0].end - ranges[0].start,
       }
     } else {
       headers = sourceStream.getHeaders()
@@ -116,7 +113,7 @@ module.exports = (fetchStream, opts = {}) => {
     // handling the response themselves. The user is responsible for calling next() to
     // continue with the response. Passing an error calls the error handling chain.
     const info = {request: req, response: res, metadata, sourceStream}
-    options.beforeSend(info, err => {
+    options.beforeSend(info, (err) => {
       if (err) {
         next(err)
         return
