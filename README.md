@@ -1,6 +1,6 @@
 # send-ranges
 
-[![npm version](http://img.shields.io/npm/v/send-ranges.svg?style=flat-square)](http://browsenpm.org/package/send-ranges)[![Build Status](http://img.shields.io/travis/rexxars/send-ranges/master.svg?style=flat-square)](https://travis-ci.org/rexxars/send-ranges)
+[![npm version](http://img.shields.io/npm/v/send-ranges.svg?style=flat-square)](http://browsenpm.org/package/send-ranges)[![Build Status](http://img.shields.io/travis/rexxars/send-ranges/main.svg?style=flat-square)](https://travis-ci.org/rexxars/send-ranges)
 
 Express middleware for handling HTTP range requests. Requires node 8 or higher.
 
@@ -28,7 +28,7 @@ async function retrieveFile(request) {
   }
 
   const filePath = path.join(mp3Path, filename)
-  const getStream = range => fs.createReadStream(filePath, range)
+  const getStream = (range) => fs.createReadStream(filePath, range)
   const type = 'audio/mpeg'
   const stats = await fse.stat(filePath)
 
@@ -56,9 +56,9 @@ Exported function accept an `options` config object that will be passed to
 
 You can pass a `beforeSend` function as an option. This is handy if you want to:
 
-* Handle the response sending yourself
-* Use metadata fetched in the file retriever to set headers on the response
-* Validate and possibly cancel the response before it is sent
+- Handle the response sending yourself
+- Use metadata fetched in the file retriever to set headers on the response
+- Validate and possibly cancel the response before it is sent
 
 The `retrieveFile` function can return an additional `metadata` property which will be passed to the
 `beforeSend` function. Here's an example:
@@ -69,7 +69,7 @@ async function retrieveFile(request) {
   const size = file.size
   const metadata = file.metadata
   const type = metadata.contentType
-  const getStream = range => file.createReadStream(range)
+  const getStream = (range) => file.createReadStream(range)
   return {getStream, size, metadata, type}
 }
 
