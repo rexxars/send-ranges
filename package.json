@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/rexxars/send-ranges#readme",
   "devDependencies": {
+    "@sanity/semantic-release-preset": "^4.1.4",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-sanity": "^6.0.0",
