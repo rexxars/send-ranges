@@ -1,3 +1,22 @@
+<!-- markdownlint-disable --><!-- textlint-disable -->
+
+# 📓 Changelog
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [5.0.0](https://github.com/rexxars/send-ranges/compare/v4.0.0...v5.0.0) (2023-09-28)
+
+### ⚠ BREAKING CHANGES
+
+- ship with official typescript types
+- require node 18 or higher
+
+### Features
+
+- require node 18 or higher ([1cea745](https://github.com/rexxars/send-ranges/commit/1cea7458a7a11e80fadeecd8b4918ee730df7abc))
+- ship with official typescript types ([e7a0d75](https://github.com/rexxars/send-ranges/commit/e7a0d7596e9f9daa303b7ca5efa9cc588d476737))
+
 # Change Log
 
 All notable changes will be documented in this file.
