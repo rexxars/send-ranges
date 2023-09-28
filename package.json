@@ -14,7 +14,7 @@
     "url": "git+ssh://git@github.com/rexxars/send-ranges.git"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "byteranges",
